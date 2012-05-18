@@ -1,0 +1,62 @@
+<html>
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+    <script src="src/Model.js"></script>
+    <script src="jquery.js"></script>
+    <style>
+        html body {
+            margin: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        #title img {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            vertical-align: top;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title"></h1>
+    <div id="wiki"></div>
+    <textarea id="wikiEditArea"></textarea>
+</body>
+<script>
+    var currentPage = null;
+    var toggleEdit = function(){
+        $('#wikiEditArea').toggleClass('hidden');
+    };
+    $('#title').click(function(){ toggleEdit() });
+
+    $('#wikiEditArea').keyup(function() {
+        pages[currentPage] = $('#wikiEditArea').val();
+        openPage(currentPage);
+    });
+
+    var pages = {
+        Home : "Hello [[World]].",
+        World : "Goodbye world"
+    };
+
+    var openPage = function(page) {
+        currentPage = page;
+        var pageText = pages[page];
+        if(!pageText){
+            pages[page] = ''
+            pageText = '';
+        }
+        var transformedText = wikiTransform(pageText);
+        $('#title').html(page+'<img src="pencil.png">');
+        $('#wiki').html(transformedText);
+        $('#wikiEditArea').val(pageText);
+    };
+
+    openPage("Home")
+</script>
+</html>
